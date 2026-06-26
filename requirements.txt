@@ -1,0 +1,8 @@
+opencv-python
+numpy
+librosa
+SpeechRecognition
+mediapipe
+flask
+openai
+python-dotenv
