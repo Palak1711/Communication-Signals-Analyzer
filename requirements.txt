@@ -6,3 +6,5 @@ mediapipe
 flask
 openai
 python-dotenv
+sounddevice
+soundfile

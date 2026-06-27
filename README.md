@@ -20,7 +20,7 @@ Scoring is grounded in peer-reviewed research:
 
 ## Tech Stack
 Python · OpenCV · MediaPipe · Whisper (OpenAI) ·
-librosa · webrtcvad · Flask · OpenAI API
+librosa · sounddevice · soundfile · Flask · OpenAI API 
 
 ## Project Status
 | Phase | Status |
