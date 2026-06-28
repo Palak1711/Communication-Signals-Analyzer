@@ -13,7 +13,7 @@ SAMPLE_RATE = 16000
 CHANNELS = 1          
 OUTPUT_DIR = "output" 
 
-def record_audio(duration=10):
+def record_audio(duration=10, filename_timestamp=None):
     """
     Records audio from the default microphone and saves it as a WAV file.
 
@@ -29,8 +29,10 @@ def record_audio(duration=10):
 
     # Build a unique filename using current date and time
     # Example result: session_20260626_143022.wav
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"session_{timestamp}.wav"
+    if filename_timestamp is None:
+      filename_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    filename = f"session_{filename_timestamp}.wav"
     filepath = os.path.join(OUTPUT_DIR, filename)
 
     # Tell the user recording is starting
