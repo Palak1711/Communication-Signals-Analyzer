@@ -31,6 +31,8 @@ def record_video(duration=10, filename_timestamp=None):
         from datetime import datetime
         filename_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
+    # os.path.join() builds file paths in an OS-independent way
+    # (Windows uses '\' while Linux/macOS use '/')
     filename = f"session_{filename_timestamp}.avi"
     filepath = os.path.join(OUTPUT_DIR, filename)
 
@@ -87,6 +89,7 @@ def record_video(duration=10, filename_timestamp=None):
     out.release()
 
     print(f"  ✓ Video saved to: {filepath}")
+    # Return the filepath so it can be used by the next stage of the pipeline.
     return filepath
 
 

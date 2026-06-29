@@ -31,7 +31,8 @@ def record_audio(duration=10, filename_timestamp=None):
     # Example result: session_20260626_143022.wav
     if filename_timestamp is None:
       filename_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
+    
+    # os.path.join() builds file paths in an OS-independent way (Windows uses '\' while Linux/macOS use '/')
     filename = f"session_{filename_timestamp}.wav"
     filepath = os.path.join(OUTPUT_DIR, filename)
 
@@ -66,6 +67,7 @@ def record_audio(duration=10, filename_timestamp=None):
     sf.write(filepath, audio_data, SAMPLE_RATE)
     print(f"  ✓ Saved to: {filepath}")
 
+    ## Return the filepath so it can be used by the next stage of the pipeline.
     return filepath
 
 # This only runs when you execute this file directly
