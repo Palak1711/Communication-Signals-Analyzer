@@ -1,13 +1,17 @@
 # main.py
 # Entry point for Communication Signal Analyzer
 # Today: records audio AND video simultaneously using threads
+# Then analyzes the recorded audio for communication signals
+
 
 import threading
 from datetime import datetime
 from core.audio_recorder import record_audio
 from core.video_recorder import record_video
+from core.audio_analyzer import analyze_audio
 
-def show_header():
+
+def show_header(): 
     print("=" * 45)
     print("  Communication Signal Analyzer v0.1")
     print("=" * 45)
@@ -16,6 +20,8 @@ def run_session(duration=10):
     """
     Runs one full recording session.
     Audio and video are recorded simultaneously using threads.
+    Analyze the recorded audio file     
+    Display communication signals
     """
     show_header()
 
@@ -63,6 +69,30 @@ def run_session(duration=10):
     # The program won't move past these two lines until both are done
     audio_thread.join()
     video_thread.join()
+
+
+    # After recording finishes, analyze the saved WAV file
+
+    print("\n" + "=" * 45)
+    print("  Recording complete! Now analyzing...")
+    print("=" * 45)
+
+
+    # Pass recorded audio path to analyzer
+    if results.get('audio'):
+
+        audio_results = analyze_audio(results['audio'])
+
+        
+        # Display extracted communication signals
+        if audio_results:
+
+            print("\n  Communication Signals:")
+            print(f"  Speaking   : {audio_results['speaking_percentage']:.1f}%")
+            print(f"  Pauses     : {audio_results['num_pauses']}")
+            print(f"  Avg Volume : {audio_results['avg_volume']:.4f}")
+            print(f"  Variation  : {audio_results['volume_variation']:.4f}")
+
 
     # Both recordings are now complete
     print("\n" + "=" * 45)
