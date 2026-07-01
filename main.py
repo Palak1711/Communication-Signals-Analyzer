@@ -9,6 +9,7 @@ from datetime import datetime
 from core.audio_recorder import record_audio
 from core.video_recorder import record_video
 from core.audio_analyzer import analyze_audio
+from core.transcriber import transcribe_audio, save_transcript
 
 
 def show_header(): 
@@ -92,6 +93,10 @@ def run_session(duration=10):
             print(f"  Pauses     : {audio_results['num_pauses']}")
             print(f"  Avg Volume : {audio_results['avg_volume']:.4f}")
             print(f"  Variation  : {audio_results['volume_variation']:.4f}")
+
+        transcript_result = transcribe_audio(results['audio'])
+        if transcript_result:
+            save_transcript(transcript_result['text'], results['audio'])
 
 
     # Both recordings are now complete
