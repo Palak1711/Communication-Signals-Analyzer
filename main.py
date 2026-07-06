@@ -10,6 +10,7 @@ from core.audio_recorder import record_audio
 from core.video_recorder import record_video
 from core.audio_analyzer import analyze_audio
 from core.transcriber import transcribe_audio, save_transcript
+from core.filler_detector import count_filler_words
 
 
 def show_header(): 
@@ -97,6 +98,7 @@ def run_session(duration=10):
         transcript_result = transcribe_audio(results['audio'])
         if transcript_result:
             save_transcript(transcript_result['text'], results['audio'])
+            filler_results = count_filler_words(transcript_result['text'])
 
 
     # Both recordings are now complete
