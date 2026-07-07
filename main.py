@@ -11,6 +11,7 @@ from core.video_recorder import record_video
 from core.audio_analyzer import analyze_audio
 from core.transcriber import transcribe_audio, save_transcript
 from core.filler_detector import count_filler_words
+from core.voice_scorer import calculate_voice_score
 
 
 def show_header(): 
@@ -99,6 +100,7 @@ def run_session(duration=10):
         if transcript_result:
             save_transcript(transcript_result['text'], results['audio'])
             filler_results = count_filler_words(transcript_result['text'])
+            voice_score_results = calculate_voice_score(audio_results, filler_results)
 
 
     # Both recordings are now complete
