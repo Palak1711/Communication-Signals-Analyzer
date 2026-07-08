@@ -2,7 +2,7 @@ opencv-python
 numpy
 librosa
 SpeechRecognition
-mediapipe
+mediapipe==0.10.21
 flask
 openai
 python-dotenv
