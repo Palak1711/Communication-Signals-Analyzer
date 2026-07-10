@@ -25,9 +25,9 @@ librosa · sounddevice · soundfile · Flask · OpenAI API
 ## Project Status
 | Phase | Status |
 |-------|--------|
-| Phase 1: Python core + recording | 🔧 In progress |
-| Phase 2: Audio analysis | ⏳ Not started |
-| Phase 3: Computer vision | ⏳ Not started |
+| Phase 1: Python core + recording | ✅ complete |
+| Phase 2: Audio analysis | ✅ complete  |
+| Phase 3: Computer vision | 🔧 In progress |
 | Phase 4: NLP + scoring | ⏳ Not started |
 | Phase 5: Web interface | ⏳ Not started |
 
