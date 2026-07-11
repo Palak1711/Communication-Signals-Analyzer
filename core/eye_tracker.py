@@ -76,9 +76,12 @@ def analyze_eye_tracking(video_filepath):
                 frames_with_eyes += 1
 
                 if not saved_sample:
-                    cv2.circle(frame, (int(right_center[0]), int(right_center[1])), 4, (0, 255, 0), -1)
-                    cv2.imwrite(sample_path, frame)
-                    saved_sample = True
+                   # Left eye = RED, radius 8 (BGR order, so red is (0, 0, 255))
+                   cv2.circle(frame, (int(left_center[0]), int(left_center[1])), 8, (0, 0, 255), -1)
+                   # Right eye = BLUE, radius 8
+                   cv2.circle(frame, (int(right_center[0]), int(right_center[1])), 8, (255, 0, 0), -1)
+                   cv2.imwrite(sample_path, frame)
+                   saved_sample = True
 
     cap.release()
 

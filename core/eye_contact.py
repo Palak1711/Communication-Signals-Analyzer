@@ -13,7 +13,7 @@ from core.eye_tracker import (
 mp_face_mesh = mp.solutions.face_mesh
 
 CALIBRATION_SECONDS = 3
-EYE_CONTACT_THRESHOLD_RATIO = 0.04  # 4% of frame width
+EYE_CONTACT_THRESHOLD_RATIO = 0.08  # 8% of frame width
 
 
 def calculate_distance(point1, point2):
