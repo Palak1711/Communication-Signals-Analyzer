@@ -1,7 +1,7 @@
 # main.py
 # Entry point for Communication Signal Analyzer
-# Today: records audio AND video simultaneously using threads
-# Then analyzes the recorded audio for communication signals
+# Records audio AND video simultaneously using threads
+# Then analyzes both for communication signals
 
 
 import threading
@@ -13,10 +13,10 @@ from core.transcriber import transcribe_audio, save_transcript
 from core.filler_detector import count_filler_words
 from core.voice_scorer import calculate_voice_score
 from core.face_analyzer import analyze_face_detection
+from core.eye_contact import analyze_eye_contact
 
 
-
-def show_header(): 
+def show_header():
     print("=" * 45)
     print("  Communication Signal Analyzer v0.1")
     print("=" * 45)
@@ -25,8 +25,7 @@ def run_session(duration=10):
     """
     Runs one full recording session.
     Audio and video are recorded simultaneously using threads.
-    Analyze the recorded audio file     
-    Display communication signals
+    Analyzes both, then displays communication signals.
     """
     show_header()
 
@@ -64,34 +63,29 @@ def run_session(duration=10):
     video_thread = threading.Thread(target=video_thread_job)
 
     # Start both threads — they now run simultaneously
-    # This is the moment both recording start at the same time
+    # This is the moment both recordings start at the same time
     audio_thread.start()
     video_thread.start()
 
     # Wait for BOTH threads to finish before continuing
     # .join() means "wait here until this thread is done"
-    # We wait for audio first, then video
     # The program won't move past these two lines until both are done
     audio_thread.join()
     video_thread.join()
-
-
-    # After recording finishes, analyze the saved WAV file
 
     print("\n" + "=" * 45)
     print("  Recording complete! Now analyzing...")
     print("=" * 45)
 
-
-    # Pass recorded audio path to analyzer
+    # ============================================
+    # AUDIO ANALYSIS BRANCH — everything audio-related
+    # ============================================
     if results.get('audio'):
 
         audio_results = analyze_audio(results['audio'])
 
-        
         # Display extracted communication signals
         if audio_results:
-
             print("\n  Communication Signals:")
             print(f"  Speaking   : {audio_results['speaking_percentage']:.1f}%")
             print(f"  Pauses     : {audio_results['num_pauses']}")
@@ -103,8 +97,16 @@ def run_session(duration=10):
             save_transcript(transcript_result['text'], results['audio'])
             filler_results = count_filler_words(transcript_result['text'])
             voice_score_results = calculate_voice_score(audio_results, filler_results)
-            face_results = analyze_face_detection(results['video'])
 
+    
+    if results.get('video'):
+
+        face_results = analyze_face_detection(results['video'])
+        eye_contact_results = analyze_eye_contact(results['video'])
+
+        if eye_contact_results:
+            print("\n  Body Language Signals:")
+            print(f"  Eye Contact : {eye_contact_results['eye_contact_percentage']}%")
 
     # Both recordings are now complete
     print("\n" + "=" * 45)

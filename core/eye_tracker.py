@@ -70,6 +70,9 @@ def analyze_eye_tracking(video_filepath):
                 left_center = calculate_eye_center(left_coords)
                 right_center = calculate_eye_center(right_coords)
 
+                print(f"  Left eye center:  {left_center}")
+                print(f"  Right eye center: {right_center}")
+
                 frames_with_eyes += 1
 
                 if not saved_sample:
