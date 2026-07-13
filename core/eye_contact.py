@@ -51,7 +51,12 @@ def analyze_eye_contact(video_filepath, fps=20):
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-    threshold = frame_width * EYE_CONTACT_THRESHOLD_RATIO
+    HORIZONTAL_THRESHOLD_RATIO = 0.05
+    VERTICAL_THRESHOLD_RATIO = 0.03
+
+    horizontal_threshold = frame_width * HORIZONTAL_THRESHOLD_RATIO
+    vertical_threshold = frame_height * VERTICAL_THRESHOLD_RATIO
+    
     calibration_frame_count = CALIBRATION_SECONDS * fps
 
     calibration_points = []
@@ -83,9 +88,12 @@ def analyze_eye_contact(video_filepath, fps=20):
                         print(f"  ✓ Calibration complete. Baseline: ({baseline[0]:.1f}, {baseline[1]:.1f})")
 
                     if baseline is not None:
-                        distance = calculate_distance(gaze_point, baseline)
-                        is_eye_contact = distance < threshold
+                        dx = abs(gaze_point[0] - baseline[0])
+                        dy = abs(gaze_point[1] - baseline[1])
+
+                        is_eye_contact = dx < horizontal_threshold and dy < vertical_threshold
                         eye_contact_flags.append(is_eye_contact)
+                        
 
     cap.release()
 
