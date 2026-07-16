@@ -15,7 +15,7 @@ from core.voice_scorer import calculate_voice_score
 from core.face_analyzer import analyze_face_detection
 from core.eye_contact import analyze_eye_contact
 from core.head_movement import analyze_head_movement
-
+from core.expression_analyzer import analyze_facial_expression
 
 
 def show_header():
@@ -106,6 +106,7 @@ def run_session(duration=10):
         face_results = analyze_face_detection(results['video'])
         eye_contact_results = analyze_eye_contact(results['video'])
         head_movement_results = analyze_head_movement(results['video'])
+        expression_results = analyze_facial_expression(results['video'])
 
         if eye_contact_results:
             print("\n  Body Language Signals:")
