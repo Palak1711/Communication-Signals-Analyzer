@@ -17,6 +17,8 @@ from core.eye_contact import analyze_eye_contact
 from core.head_movement import analyze_head_movement
 from core.expression_analyzer import analyze_facial_expression
 from core.blink_detector import analyze_blink_rate
+from core.body_language_scorer import calculate_body_language_score
+
 
 
 
@@ -110,6 +112,10 @@ def run_session(duration=10):
         head_movement_results = analyze_head_movement(results['video'])
         expression_results = analyze_facial_expression(results['video'])
         blink_results = analyze_blink_rate(results['video'])
+        body_language_results = calculate_body_language_score(
+            eye_contact_results, head_movement_results,
+            expression_results, blink_results
+        )
 
         if eye_contact_results:
             print("\n  Body Language Signals:")
