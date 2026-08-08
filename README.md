@@ -31,6 +31,22 @@ librosa · sounddevice · soundfile · Flask · OpenAI API
 | Phase 4: NLP + scoring | ⏳ Not started |
 | Phase 5: Web interface | ⏳ Not started |
 
+## Known Limitations
+- Speech-to-text uses Whisper's "base" model — accuracy decreases for
+  proper nouns (names) and fast speech. A larger model would improve
+  this at the cost of processing speed.
+- Eye contact is measured via eyelid landmark position, not true
+  iris/gaze tracking — it cannot distinguish "head tilted down" from
+  "eyes cast down while head stays still."
+- Blink detection tracks only the left eye as a simplification.
+- Body language research this scoring is based on carries a Western
+  cultural bias — eye contact and pacing norms vary across cultures.
+- The overall scoring weights are transparent design decisions
+  grounded in research, not a peer-reviewed formula — see project
+  documentation for full reasoning.
+- No hand-occlusion detection yet — a hand covering the face during
+  gestures can temporarily affect eye contact/head stability accuracy.
+
 ## Setup
 ```bash
 python -m venv venv
