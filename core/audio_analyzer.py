@@ -67,6 +67,32 @@ def get_pause_stats(y, sr):
     Returns:
         dict: pause statistics including count, duration, speaking percentage
     """
+
+    ABSOLUTE_SILENCE_THRESHOLD = 0.01
+
+    max_amplitude = np.max(np.abs(y))
+
+    if max_amplitude < ABSOLUTE_SILENCE_THRESHOLD:
+        # The entire clip is near-silent — don't trust the relative
+        # split, since it has no genuinely loud reference point to
+        # compare against. Report the whole thing as silence.
+        total_duration = len(y) / sr
+        print(f"\n  ⏸  Pause Stats:")
+        print(f"     Speaking    : 0.0% (clip below absolute silence threshold)")
+        print(f"     Silence     : 100.0%")
+        return {
+            'total_duration': total_duration,
+            'speaking_duration': 0.0,
+            'silence_duration': total_duration,
+            'speaking_percentage': 0.0,
+            'silence_percentage': 100.0,
+            'num_pauses': 0,
+            'avg_pause_duration': 0.0,
+            'longest_pause': 0.0,
+            'pause_durations': []
+        }
+
+    
     # Split audio into non-silent intervals
     # top_db=40 means anything 40dB below the max is considered silence
     # This is a standard threshold for indoor speech
