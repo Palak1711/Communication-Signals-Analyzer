@@ -4,7 +4,7 @@ librosa
 SpeechRecognition
 mediapipe==0.10.21
 flask
-openai
+google-genai
 python-dotenv
 sounddevice
 soundfile
