@@ -7,8 +7,7 @@ from core.eye_contact import calculate_distance
 mp_face_mesh = mp.solutions.face_mesh
 
 NOSE_TIP_INDEX = 1
-MOVEMENT_THRESHOLD_RATIO = 0.015  # 1.5% of frame width
-
+MOVEMENT_THRESHOLD_RATIO = 0.004
 
 def get_nose_position(face_landmarks, frame_width, frame_height):
     """Returns the nose tip's pixel (x, y) position."""
