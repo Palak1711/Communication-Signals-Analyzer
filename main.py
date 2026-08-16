@@ -18,6 +18,7 @@ from core.head_movement import analyze_head_movement
 from core.expression_analyzer import analyze_facial_expression
 from core.blink_detector import analyze_blink_rate
 from core.body_language_scorer import calculate_body_language_score
+from core.communication_analyzer import analyze_communication
 
 
 
@@ -103,6 +104,7 @@ def run_session(duration=10):
             save_transcript(transcript_result['text'], results['audio'])
             filler_results = count_filler_words(transcript_result['text'])
             voice_score_results = calculate_voice_score(audio_results, filler_results)
+            communication_results = analyze_communication(transcript_result['text'])
 
     
     if results.get('video'):
