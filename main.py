@@ -19,7 +19,8 @@ from core.expression_analyzer import analyze_facial_expression
 from core.blink_detector import analyze_blink_rate
 from core.body_language_scorer import calculate_body_language_score
 from core.communication_analyzer import analyze_communication
-
+from core.final_scorer import calculate_final_score
+from core.report_generator import generate_report
 
 
 
@@ -43,6 +44,9 @@ def run_session(duration=10):
 
     print(f"\n  Session ID: {timestamp}")
     print(f"  Duration: {duration} seconds")
+
+    input("\n  Press Enter when you're ready to start recording...")
+
     print("\n  Get ready — recording starts now...\n")
 
     # Store results from both threads here
@@ -122,6 +126,14 @@ def run_session(duration=10):
         if eye_contact_results:
             print("\n  Body Language Signals:")
             print(f"  Eye Contact : {eye_contact_results['eye_contact_percentage']}%")
+
+
+    if 'voice_score_results' in dir() and 'body_language_results' in dir():
+        final_results = calculate_final_score(
+            voice_score_results, body_language_results, communication_results
+        )
+        generate_report(timestamp, final_results, communication_results)
+        
 
     # Both recordings are now complete
     print("\n" + "=" * 45)
