@@ -129,10 +129,14 @@ def run_session(duration=10):
 
 
     if 'voice_score_results' in dir() and 'body_language_results' in dir():
-        final_results = calculate_final_score(
+        if audio_results['speaking_percentage'] < 5:
+          print("\n  🎙  No speech detected in this session.")
+          print("     Please try again and make sure you're speaking clearly.")
+        else:
+          final_results = calculate_final_score(
             voice_score_results, body_language_results, communication_results
-        )
-        generate_report(timestamp, final_results, communication_results)
+          )
+          generate_report(timestamp, final_results, communication_results)
         
 
     # Both recordings are now complete
