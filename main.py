@@ -21,6 +21,7 @@ from core.body_language_scorer import calculate_body_language_score
 from core.communication_analyzer import analyze_communication
 from core.final_scorer import calculate_final_score
 from core.report_generator import generate_report
+from core.session_history import save_session_to_history, show_progress
 
 
 
@@ -137,6 +138,9 @@ def run_session(duration=10):
             voice_score_results, body_language_results, communication_results
           )
           generate_report(timestamp, final_results, communication_results)
+
+          history = save_session_to_history(timestamp, final_results)
+          show_progress(history)
         
 
     # Both recordings are now complete
