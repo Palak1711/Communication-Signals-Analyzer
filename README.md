@@ -19,22 +19,27 @@ Scoring is grounded in peer-reviewed research:
 - Compton et al. (2018) — nonverbal communication scoring
 
 ## Tech Stack
-Python · OpenCV · MediaPipe · Whisper (OpenAI) ·
-librosa · sounddevice · soundfile · Flask · OpenAI API 
+Python · OpenCV · MediaPipe · Whisper (OpenAI, local) ·
+librosa · sounddevice · soundfile · Flask · Google Gemini API
 
 ## Project Status
 | Phase | Status |
 |-------|--------|
 | Phase 1: Python core + recording | ✅ complete |
 | Phase 2: Audio analysis | ✅ complete  |
-| Phase 3: Computer vision | 🔧 In progress |
-| Phase 4: NLP + scoring | ⏳ Not started |
+| Phase 3: Computer vision | ✅ complete |
+| Phase 4: NLP + scoring | ✅ complete |
 | Phase 5: Web interface | ⏳ Not started |
 
 ## Known Limitations
-- Speech-to-text uses Whisper's "base" model — accuracy decreases for
-  proper nouns (names) and fast speech. A larger model would improve
-  this at the cost of processing speed.
+- Speech-to-text uses Whisper's "small" model. Accuracy is better than
+  the base model but still occasionally struggles with uncommon proper
+  nouns. Transcription confidence is now tracked and flagged when low,
+  but this doesn't catch hallucinated (fluent but incorrect) output.
+- Whisper's confidence score (avg_logprob) reflects decoding certainty,
+  not factual accuracy — it can be "confident" while still producing
+  fluent but incorrect (hallucinated) text, especially on quiet or
+  ambiguous audio.
 - Eye contact is measured via eyelid landmark position, not true
   iris/gaze tracking — it cannot distinguish "head tilted down" from
   "eyes cast down while head stays still."
