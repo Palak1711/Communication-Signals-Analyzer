@@ -12,6 +12,8 @@ def generate_report(session_timestamp, final_results, communication_results):
     lines.append("  COMMUNICATION SIGNALS ANALYZER — SESSION REPORT")
     lines.append("=" * 50)
     lines.append(f"Session: {session_timestamp}")
+    if communication_results and communication_results.get('low_confidence'):
+        lines.append("⚠ Note: Transcription confidence was low this session — AI feedback may be less reliable.")
     lines.append("")
 
     if final_results['needs_retry']:

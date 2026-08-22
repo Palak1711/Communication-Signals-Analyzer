@@ -2,7 +2,7 @@ import whisper
 import os
 
 print("  Loading Whisper model (this happens once, may take a moment)...")
-model = whisper.load_model("base")
+model = whisper.load_model("small")
 print("  ✓ Whisper model loaded.")
 
 
@@ -33,13 +33,26 @@ def transcribe_audio(filepath):
     transcript_text = result['text'].strip()
     segments = result['segments']
 
+     # Whisper's avg_logprob is closer to 0 = confident, more negative = uncertain
+    if segments:
+        avg_logprob = sum(seg['avg_logprob'] for seg in segments) / len(segments)
+    else:
+        avg_logprob = None
+
+    low_confidence = avg_logprob is not None and avg_logprob < -0.8
+
     print(f"  ✓ Transcription complete.")
     print(f"\n  Transcript:")
     print(f"  \"{transcript_text}\"")
 
+    if low_confidence:
+        print(f"  ⚠  Transcription confidence was low — results may be less reliable.")
+
     return {
         'text': transcript_text,
-        'segments': segments
+        'segments': segments,
+        'avg_logprob': avg_logprob,
+        'low_confidence': low_confidence
     }
 
 def save_transcript(transcript_text, audio_filepath):

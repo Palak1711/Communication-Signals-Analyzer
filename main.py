@@ -105,6 +105,10 @@ def run_session(duration=10):
             print(f"  Variation  : {audio_results['volume_variation']:.4f}")
 
         transcript_result = transcribe_audio(results['audio'])
+
+        if transcript_result and transcript_result['low_confidence']:
+            print("  ⚠  Transcription confidence was low — AI feedback may be less reliable this session.")
+
         if transcript_result:
             save_transcript(transcript_result['text'], results['audio'])
             filler_results = count_filler_words(transcript_result['text'])
