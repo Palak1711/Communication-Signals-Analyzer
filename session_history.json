@@ -6,5 +6,29 @@
     "body_score": 74.2,
     "comm_score": 50.0,
     "needs_retry": false
+  },
+  {
+    "timestamp": "20260821_184457",
+    "final_score": 65.0,
+    "voice_score": 72.5,
+    "body_score": 70.0,
+    "comm_score": 50.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260822_112302",
+    "final_score": 57.6,
+    "voice_score": 72.5,
+    "body_score": 65.5,
+    "comm_score": 30.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260822_114335",
+    "final_score": 62.5,
+    "voice_score": 75.0,
+    "body_score": 71.8,
+    "comm_score": 36.7,
+    "needs_retry": false
   }
 ]
