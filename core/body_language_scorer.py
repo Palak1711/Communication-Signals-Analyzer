@@ -56,6 +56,10 @@ def calculate_body_language_score(eye_contact_results, head_movement_results,
         Expressiveness:   15%
         Blink rate:       10%
     """
+    if not all([eye_contact_results, head_movement_results, expression_results, blink_results]):
+        print("  ✗ Cannot calculate Body Language Score — one or more vision analyses failed.")
+        return None
+    
     eye_score = eye_contact_to_score(eye_contact_results['eye_contact_percentage'])
     head_score = head_stability_to_score(head_movement_results['movements_per_second'])
     expr_score = expression_results['expression_score']  # already 0-100

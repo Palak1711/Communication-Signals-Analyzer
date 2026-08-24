@@ -17,6 +17,11 @@ def calculate_final_score(voice_score_results, body_language_results, communicat
     The true score is still calculated and returned for
     internal use (e.g. session history).
     """
+    
+    if not voice_score_results or not body_language_results:
+        print("  ✗ Cannot calculate final score — voice or body language analysis failed.")
+        return None
+    
     voice_score = voice_score_results['voice_score']
     body_score = body_language_results['body_language_score']
 

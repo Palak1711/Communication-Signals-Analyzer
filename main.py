@@ -117,7 +117,7 @@ def run_session(duration=10):
 
     
     if results.get('video'):
-
+      try:
         face_results = analyze_face_detection(results['video'])
         eye_contact_results = analyze_eye_contact(results['video'])
         head_movement_results = analyze_head_movement(results['video'])
@@ -131,6 +131,10 @@ def run_session(duration=10):
         if eye_contact_results:
             print("\n  Body Language Signals:")
             print(f"  Eye Contact : {eye_contact_results['eye_contact_percentage']}%")
+            
+      except Exception as e:
+        print(f"  ✗ Video analysis failed unexpectedly: {e}")
+        body_language_results = None
 
 
     if 'voice_score_results' in dir() and 'body_language_results' in dir():

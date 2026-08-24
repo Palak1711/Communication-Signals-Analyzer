@@ -30,5 +30,29 @@
     "body_score": 71.8,
     "comm_score": 36.7,
     "needs_retry": false
+  },
+  {
+    "timestamp": "20260824_130518",
+    "final_score": 78.9,
+    "voice_score": 86.2,
+    "body_score": 68.2,
+    "comm_score": 80.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260824_130838",
+    "final_score": 75.0,
+    "voice_score": 86.2,
+    "body_score": 68.2,
+    "comm_score": 66.7,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260824_131957",
+    "final_score": 69.9,
+    "voice_score": 86.2,
+    "body_score": 68.2,
+    "comm_score": 50.0,
+    "needs_retry": false
   }
 ]
