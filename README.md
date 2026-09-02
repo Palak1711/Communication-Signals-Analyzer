@@ -29,7 +29,7 @@ librosa · sounddevice · soundfile · Flask · Google Gemini API
 | Phase 2: Audio analysis | ✅ complete  |
 | Phase 3: Computer vision | ✅ complete |
 | Phase 4: NLP + scoring | ✅ complete |
-| Phase 5: Web interface | ⏳ Not started |
+| Phase 5: Web interface | ⏳ In Progress |
 
 ## Known Limitations
 - Speech-to-text uses Whisper's "small" model. Accuracy is better than
