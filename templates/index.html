@@ -25,7 +25,7 @@
             font-size: 24px;
             margin-top: 20px;
             display: none;
-         }
+        }
         #results {
             margin-top: 30px;
             display: none;
@@ -48,5 +48,30 @@
         <h2>Your Results</h2>
         <p>Results will appear here.</p>
     </div>
+
+    <script>
+    document.getElementById('startBtn').addEventListener('click', function() {
+        const btn = document.getElementById('startBtn');
+        btn.disabled = true;
+        btn.textContent = 'Recording... please wait';
+
+        fetch('/start-session', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.textContent = 'Start Session';
+
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.style.display = 'block';
+                resultsDiv.innerHTML = '<h2>Result</h2><pre>' +
+                    JSON.stringify(data, null, 2) + '</pre>';
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.textContent = 'Start Session';
+                console.error('Error:', error);
+            });
+    });
+    </script>
 </body>
 </html>
