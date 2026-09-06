@@ -50,28 +50,66 @@
     </div>
 
     <script>
-    document.getElementById('startBtn').addEventListener('click', function() {
-        const btn = document.getElementById('startBtn');
-        btn.disabled = true;
-        btn.textContent = 'Recording... please wait';
+function displayResults(data) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.style.display = 'block';
 
-        fetch('/start-session', { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                btn.disabled = false;
-                btn.textContent = 'Start Session';
+    if (data.status === 'no_speech') {
+        resultsDiv.innerHTML = '<h2>No speech detected</h2>' +
+            '<p>Please try again and make sure you are speaking clearly.</p>';
+        return;
+    }
 
-                const resultsDiv = document.getElementById('results');
-                resultsDiv.style.display = 'block';
-                resultsDiv.innerHTML = '<h2>Result</h2><pre>' +
-                    JSON.stringify(data, null, 2) + '</pre>';
-            })
-            .catch(error => {
-                btn.disabled = false;
-                btn.textContent = 'Start Session';
-                console.error('Error:', error);
-            });
+    if (data.status === 'error') {
+        resultsDiv.innerHTML = '<h2>Something went wrong</h2>' +
+            '<p>Please try again.</p>';
+        return;
+    }
+
+    if (data.needs_retry) {
+        resultsDiv.innerHTML = '<h2>Almost there</h2>' +
+            '<p>This session needs a bit more practice before scoring feels meaningful.</p>';
+        return;
+    }
+
+    let html = '<h2>Your Communication Signals Score: ' + data.final_score + '/100</h2>';
+     html += '<p>Voice: ' + data.voice_score +
+            ' &nbsp;|&nbsp; Body Language: ' + data.body_score +
+            ' &nbsp;|&nbsp; Communication: ' + data.comm_score + '</p>';
+
+    html += '<h3>Strengths</h3><ul>';
+    data.strengths.forEach(function(s) {
+        html += '<li>' + s + '</li>';
     });
-    </script>
+    html += '</ul>';
+
+    html += '<h3>Areas to improve</h3><ul>';
+    data.weaknesses.forEach(function(w) {
+        html += '<li>' + w + '</li>';
+    });
+    html += '</ul>';
+
+    resultsDiv.innerHTML = html;
+}
+
+document.getElementById('startBtn').addEventListener('click', function() {
+    const btn = document.getElementById('startBtn');
+    btn.disabled = true;
+    btn.textContent = 'Recording... please wait';
+
+    fetch('/start-session', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            btn.disabled = false;
+            btn.textContent = 'Start Session';
+            displayResults(data);
+        })
+        .catch(error => {
+            btn.disabled = false;
+            btn.textContent = 'Start Session';
+            console.error('Error:', error);
+        });
+});
+</script>
 </body>
 </html>
