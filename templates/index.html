@@ -94,8 +94,27 @@ function displayResults(data) {
 
 document.getElementById('startBtn').addEventListener('click', function() {
     const btn = document.getElementById('startBtn');
+    const timerDiv = document.getElementById('timer');
+    const countdownSpan = document.getElementById('countdown');
+    const resultsDiv = document.getElementById('results');
+
     btn.disabled = true;
-    btn.textContent = 'Recording... please wait';
+    resultsDiv.style.display = 'none';
+    timerDiv.style.display = 'block';
+
+    let secondsLeft = 10;
+    countdownSpan.textContent = secondsLeft;
+
+    const countdownInterval = setInterval(function() {
+        secondsLeft = secondsLeft - 1;
+        countdownSpan.textContent = secondsLeft;
+
+        if (secondsLeft <= 0) {
+            clearInterval(countdownInterval);
+            timerDiv.style.display = 'none';
+            btn.textContent = 'Analyzing...';
+        }
+    }, 1000);
 
     fetch('/start-session', { method: 'POST' })
         .then(response => response.json())
@@ -107,8 +126,11 @@ document.getElementById('startBtn').addEventListener('click', function() {
         .catch(error => {
             btn.disabled = false;
             btn.textContent = 'Start Session';
+            clearInterval(countdownInterval);
+            timerDiv.style.display = 'none';
             console.error('Error:', error);
         });
+
 });
 </script>
 </body>
