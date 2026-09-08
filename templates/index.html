@@ -34,6 +34,23 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .spinner {
+            border: 4px solid #ddd;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 15px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #loading {
+            display: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -43,6 +60,11 @@
     <button id="startBtn">Start Session</button>
 
     <div id="timer">Recording... <span id="countdown">10</span>s remaining</div>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <p id="loadingText">Analyzing your session...</p>
+    </div>
 
     <div id="results">
         <h2>Your Results</h2>
@@ -73,7 +95,7 @@ function displayResults(data) {
     }
 
     let html = '<h2>Your Communication Signals Score: ' + data.final_score + '/100</h2>';
-     html += '<p>Voice: ' + data.voice_score +
+    html += '<p>Voice: ' + data.voice_score +
             ' &nbsp;|&nbsp; Body Language: ' + data.body_score +
             ' &nbsp;|&nbsp; Communication: ' + data.comm_score + '</p>';
 
@@ -92,18 +114,30 @@ function displayResults(data) {
     resultsDiv.innerHTML = html;
 }
 
+const loadingMessages = [
+    "Analyzing your voice...",
+    "Checking eye contact and body language...",
+    "Reviewing what you said...",
+    "Almost done..."
+];
+
 document.getElementById('startBtn').addEventListener('click', function() {
     const btn = document.getElementById('startBtn');
     const timerDiv = document.getElementById('timer');
     const countdownSpan = document.getElementById('countdown');
     const resultsDiv = document.getElementById('results');
+    const loadingDiv = document.getElementById('loading');
+    const loadingText = document.getElementById('loadingText');
 
     btn.disabled = true;
     resultsDiv.style.display = 'none';
+    loadingDiv.style.display = 'none';
     timerDiv.style.display = 'block';
 
     let secondsLeft = 10;
     countdownSpan.textContent = secondsLeft;
+    let messageIndex = 0;
+    let messageInterval;
 
     const countdownInterval = setInterval(function() {
         secondsLeft = secondsLeft - 1;
@@ -113,24 +147,34 @@ document.getElementById('startBtn').addEventListener('click', function() {
             clearInterval(countdownInterval);
             timerDiv.style.display = 'none';
             btn.textContent = 'Analyzing...';
+
+            loadingDiv.style.display = 'block';
+            loadingText.textContent = loadingMessages[0];
+            messageInterval = setInterval(function() {
+                messageIndex = (messageIndex + 1) % loadingMessages.length;
+                loadingText.textContent = loadingMessages[messageIndex];
+            }, 3000);
         }
     }, 1000);
 
     fetch('/start-session', { method: 'POST' })
         .then(response => response.json())
         .then(data => {
+            clearInterval(messageInterval);
+            loadingDiv.style.display = 'none';
             btn.disabled = false;
             btn.textContent = 'Start Session';
             displayResults(data);
         })
         .catch(error => {
+            clearInterval(countdownInterval);
+            clearInterval(messageInterval);
+            timerDiv.style.display = 'none';
+            loadingDiv.style.display = 'none';
             btn.disabled = false;
             btn.textContent = 'Start Session';
-            clearInterval(countdownInterval);
-            timerDiv.style.display = 'none';
             console.error('Error:', error);
         });
-
 });
 </script>
 </body>
