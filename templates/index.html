@@ -52,6 +52,7 @@
             margin-top: 20px;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 </head>
 <body>
     <h1>Communication Signal Analyzer</h1>
@@ -72,6 +73,8 @@
     </div>
 
     <script>
+let scoreChart = null;
+
 function displayResults(data) {
     const resultsDiv = document.getElementById('results');
     resultsDiv.style.display = 'block';
@@ -95,9 +98,7 @@ function displayResults(data) {
     }
 
     let html = '<h2>Your Communication Signals Score: ' + data.final_score + '/100</h2>';
-    html += '<p>Voice: ' + data.voice_score +
-            ' &nbsp;|&nbsp; Body Language: ' + data.body_score +
-            ' &nbsp;|&nbsp; Communication: ' + data.comm_score + '</p>';
+    html += '<canvas id="scoreChart" width="400" height="250"></canvas>';
 
     html += '<h3>Strengths</h3><ul>';
     data.strengths.forEach(function(s) {
@@ -112,8 +113,33 @@ function displayResults(data) {
     html += '</ul>';
 
     resultsDiv.innerHTML = html;
-}
 
+    if (scoreChart) {
+        scoreChart.destroy();
+    }
+
+    const ctx = document.getElementById('scoreChart').getContext('2d');
+
+    scoreChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Voice', 'Body Language', 'Communication'],
+            datasets: [{
+                label: 'Score out of 100',
+                data: [data.voice_score, data.body_score, data.comm_score],
+                backgroundColor: ['#2563eb', '#16a34a', '#f59e0b']
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+}
 const loadingMessages = [
     "Analyzing your voice...",
     "Checking eye contact and body language...",

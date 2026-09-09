@@ -118,5 +118,53 @@
     "body_score": 68.2,
     "comm_score": 73.3,
     "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_175050",
+    "final_score": 75.0,
+    "voice_score": 86.2,
+    "body_score": 65.2,
+    "comm_score": 70.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_175233",
+    "final_score": 80.0,
+    "voice_score": 91.2,
+    "body_score": 65.2,
+    "comm_score": 80.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_175506",
+    "final_score": 78.0,
+    "voice_score": 86.2,
+    "body_score": 65.2,
+    "comm_score": 80.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_175622",
+    "final_score": 60.0,
+    "voice_score": 80.0,
+    "body_score": 75.8,
+    "comm_score": 20.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_175702",
+    "final_score": 72.6,
+    "voice_score": 80.0,
+    "body_score": 65.2,
+    "comm_score": 70.0,
+    "needs_retry": false
+  },
+  {
+    "timestamp": "20260909_180425",
+    "final_score": 72.8,
+    "voice_score": 86.2,
+    "body_score": 74.5,
+    "comm_score": 53.3,
+    "needs_retry": false
   }
 ]
